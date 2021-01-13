@@ -23,10 +23,9 @@ class PermissionsController extends Controller
 
     public function getList()
     {
-        $list = Permission::all();
+        $list = Permission::getPermissions();
         return Datatables::of($list)
             ->addColumn('action', function ($list) {
-
                 return '<a href="' . url('rights/permissions/add') . '" class="btn btn-xs btn-primary button-color" style="color: white"> <i class="fa fa-folder-open"></i> Add Permission</a>';
             })
             ->rawColumns([])
@@ -43,10 +42,11 @@ class PermissionsController extends Controller
         try {
             $permissionName = $request->get('permission_name');
             if($permissionName != ''){
-                $permission = new Permission();
-                $permission->name = $permissionName;
-                $permission->save();
+                Permission::create(['name' => $permissionName]);
                 Session::flash('success', 'Permission Created Successfully!');
+                return redirect('rights/permissions/list');
+            }else{
+                Session::flash('error', 'Please Check Permission Name!');
                 return redirect('rights/permissions/list');
             }
         }catch (\Exception $e){

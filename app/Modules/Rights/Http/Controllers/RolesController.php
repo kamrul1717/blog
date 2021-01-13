@@ -3,6 +3,7 @@
 namespace App\Modules\Rights\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use yajra\Datatables\Datatables;
 use Spatie\Permission\Models\Role;
@@ -51,6 +52,30 @@ class RolesController extends Controller
             }
         }catch (\Exception $e){
             return $e->getMessage();
+        }
+    }
+
+    public function assignRole($id)
+    {
+        try {
+            $userInfo = User::findOrFail($id);
+            $roles = Role::orderBy('name')->pluck('name', 'id');
+            return view("Rights::roles.assignRoleForm", compact('userInfo', 'roles'));
+        }catch(\Exception $e){
+            dd($e->getMessage());
+        }
+    }
+
+    public function saveRole($id, Request $request)
+    {
+        try {
+            $userInfo = User::findOrFail($id);
+            $role = $request->get('role');
+            $assigned = $userInfo->assignRole($role);
+            Session::flash('success', 'Role Assigned Successfully!');
+            return redirect('rights/manage-users');
+        }catch(\Exception $e){
+            dd($e->getMessage());
         }
     }
 }

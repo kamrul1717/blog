@@ -8,7 +8,7 @@
     <table id="table_desk" class="table table-stripped" style="width: 100%">
         <thead>
             <tr>
-                <th>Role</th>
+                <th>Permission</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -32,7 +32,7 @@
                 serverSide: true,
                 searching: true,
                 ajax: {
-                    url:  '{{url("/rights/roles/get-list")}}',
+                    url:  '{{url("/rights/permissions/get-list")}}',
                     method:'get',
                     data: function (d) {
                         d._token = $('input[name="_token"]').val();

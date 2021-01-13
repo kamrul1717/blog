@@ -1,62 +1,49 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Rights</title>
+<link rel="stylesheet" href="{{asset('assets/bootstrap/css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+<div class="container">
+    {!! Session::has('success') ? '<div class="alert alert-success alert-dismissible"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'. Session::get("success") .'</div>' : '' !!}
+    {!! Session::has('error') ? '<div class="alert alert-danger alert-dismissible"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'. Session::get("error") .'</div>' : '' !!}
+    <table id="table_desk" class="table table-stripped" style="width: 100%">
+        <thead>
+        <tr>
+            <th>User Name</th>
+            <th>User Role</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
+
+<script src="{{ asset("assets/scripts/jquery.min.js") }}"></script>
+<script src="{{asset('assets/bootstrap/js/bootstrap.min.js')}}"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+
+
+<script>
+
+
+    table_desk = $('#table_desk').DataTable({
+        iDisplayLength: 50,
+        processing: true,
+        serverSide: true,
+        searching: true,
+        ajax: {
+            url:  '{{url("/rights/get-users-list")}}',
+            method:'get',
+            data: function (d) {
+                d._token = $('input[name="_token"]').val();
             }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            <div class="content">
-                <div class="title">
-                    Rights
-                </div>
-                <div class="subtitle">
-                    @if (Lang::has('Rights::example.welcome'))
-                        {{ trans('Rights::example.welcome') }}
-                    @else
-                        Welcome, this is Rights module.
-                    @endif
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
+        },
+        columns: [
+            {data: 'name', name: 'name'},
+            {data: 'role', name: 'role'},
+            {data: 'action', name: 'action'},
+        ],
+        "aaSorting": []
+    });
+</script>
