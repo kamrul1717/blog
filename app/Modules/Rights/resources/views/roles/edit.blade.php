@@ -4,22 +4,22 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <div class="card-title"><strong>Permission Create</strong></div>
-            {!! Form::open(array('url' => 'rights/permissions/save','method' => 'post','id' => 'permissionForm','permission'=>'form','files'=>true)) !!}
+            <div class="card-title"><strong>Role Create</strong></div>
+            {!! Form::open(array('url' => 'rights/roles/update/'.$roleInfo->id,'method' => 'post','id' => 'roleEditForm','role'=>'form','files'=>true)) !!}
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"/>
             <div class="col-md-12">
                 <div class="form-group " style="">
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Form::label('permission_name','Permission Name :',['class'=>'col-md-5 required-star text-left']) !!}
+                            {!! Form::label('role_name','Role Name :',['class'=>'col-md-5 text-left required-star']) !!}
                             <div class="col-md-7 {{$errors->has('carrier_type') ? 'has-error': ''}}">
-                                {!! Form::text('permission_name', '', ['class' => 'form-control required input-sm']) !!}
+                                {!! Form::text('role_name', $roleInfo->name, ['class' => 'form-control required input-sm']) !!}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-md" value="submit" name="actionBtn">Create</button>
+            <button type="submit" class="btn btn-primary btn-md" value="submit" name="actionBtn">Submit</button>
             {!! Form::close() !!}
         </div>
     </div>
@@ -32,6 +32,6 @@
 <script>
     // Jquery Validation form
     $(document).ready(function () {
-        $('#permissionForm').validate();
+        $('#roleEditForm').validate();
     });
 </script>

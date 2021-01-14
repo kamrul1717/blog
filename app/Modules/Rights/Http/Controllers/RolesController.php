@@ -28,7 +28,10 @@ class RolesController extends Controller
 		return Datatables::of($list)
         ->addColumn('action', function ($list) {
 
-            return '<a href="' . url('rights/roles/add') . '" class="btn btn-xs btn-primary button-color" style="color: white"> <i class="fa fa-folder-open"></i> Add Role</a>';
+            return '
+            <a href="' . url('rights/roles/edit/'.$list->id) . '" class="btn btn-link"> Edit </a> |
+            <a onclick="return confirm(\'Are you sure you want to delete?\');" href="' . url('rights/roles/delete/'.$list->id) . '" class="btn btn-link"> Delete </a>
+            ';
         })
         ->rawColumns([])
         ->make(true);
@@ -51,7 +54,40 @@ class RolesController extends Controller
                 return redirect('rights/roles/list');
             }
         }catch (\Exception $e){
-            return $e->getMessage();
+            Session::flash('error', 'Something Went Wrong!');
+            return redirect('rights/roles/list');
+        }
+    }
+
+    public function edit($id)
+    {
+        $roleInfo = Role::findOrFail($id);
+        return view("Rights::roles.edit", compact('roleInfo'));
+    }
+
+    public function update($id, Request $request)
+    {
+        try {
+            $roleInfo = Role::where('id', $id)->update([
+                'name' => $request->role_name
+            ]);
+            Session::flash('success', 'Role Update Successfully!');
+            return redirect('rights/roles/list');
+        }catch (\Exception $e){
+            Session::flash('error', 'Something Went Wrong!');
+            return redirect('rights/roles/list');
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            Role::where('id', $id)->delete();
+            Session::flash('success', 'Role Deleted!');
+            return redirect('rights/roles/list');
+        }catch (\Exception $e){
+            Session::flash('error', 'Something Went Wrong!');
+            return redirect('rights/roles/list');
         }
     }
 
