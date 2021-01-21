@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use yajra\Datatables\Datatables;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Session;
+use App\User;
 
 class PermissionsController extends Controller
 {
@@ -81,6 +82,28 @@ class PermissionsController extends Controller
             Session::flash('success', 'Permission Deleted!');
             return redirect('rights/permissions/list');
         }catch (\Exception $e){
+            Session::flash('error', 'Something Went Wrong!');
+            return redirect('rights/permissions/list');
+        }
+    }
+
+
+    public function assignPermissionToUser($user_id){
+        $user = User::find($user_id);
+        $roles = $user->roles;
+        return view("Rights::permissions.userPermissions", compact('roles'));
+    }
+
+    public function getUserPermissionsList($user_id){
+        try {
+            $user = User::find($user_id);
+            $permissions = $user->getAllPermissions();
+
+            $list = Permission::getPermissions();
+            Session::flash('success', 'Permission Deleted!');
+            return redirect('rights/permissions/list');
+        }catch (\Exception $e){
+//            dd($e->getMessage());
             Session::flash('error', 'Something Went Wrong!');
             return redirect('rights/permissions/list');
         }

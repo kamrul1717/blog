@@ -21,8 +21,8 @@ class RightsController extends Controller
             ->addColumn('action', function ($list) {
 
                 return '
-                <a href="' . url('rights/roles/assign-role/'.$list->id) . '" class="btn btn-sm btn-primary" style="color: white">Assign Role</a>
-                <a href="' . url('rights/roles/assign-permission/'.$list->id) . '" class="btn btn-sm btn-info" style="color: white">Assign Permission</a>
+                <a href="' . url('rights/assign-role-to-user/'.$list->id) . '" class="btn btn-sm btn-primary" style="color: white">Assign Role</a>
+                <a href="' . url('rights/assign-permission-to-user/'.$list->id) . '" class="btn btn-sm btn-info" style="color: white">Assign Permission</a>
                 ';
             })
             ->editColumn('role', function ($list) {

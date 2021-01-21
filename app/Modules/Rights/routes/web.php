@@ -3,7 +3,7 @@
 
 
 
-Route::group(['module' => 'Rights', 'middleware' => ['role:super-admin','web','auth']], function() {
+Route::group(['module' => 'Rights', 'middleware' => ['web','auth']], function() {
 
     Route::get('rights/manage-users', 'RightsController@manageUsers');
     Route::get('rights/get-users-list', 'RightsController@getUsersList');
@@ -30,4 +30,8 @@ Route::group(['module' => 'Rights', 'middleware' => ['role:super-admin','web','a
     Route::get('rights/permissions/edit/{id}', 'PermissionsController@edit');
     Route::post('rights/permissions/update/{id}', 'PermissionsController@update');
     Route::get('rights/permissions/delete/{id}', 'PermissionsController@delete');
+
+
+    Route::get('rights/assign-permission-to-user/{id}', 'PermissionsController@assignPermissionToUser');
+    Route::get('rights/user-permissions-list/{id}', 'PermissionsController@getUserPermissionsList');
 });

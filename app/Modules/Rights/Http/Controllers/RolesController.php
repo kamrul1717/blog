@@ -30,7 +30,8 @@ class RolesController extends Controller
 
             return '
             <a href="' . url('rights/roles/edit/'.$list->id) . '" class="btn btn-link"> Edit </a> |
-            <a onclick="return confirm(\'Are you sure you want to delete?\');" href="' . url('rights/roles/delete/'.$list->id) . '" class="btn btn-link"> Delete </a>
+            <a onclick="return confirm(\'Are you sure you want to delete?\');" href="' . url('rights/roles/delete/'.$list->id) . '" class="btn btn-link"> Delete </a> |
+            <a href="' . url('rights/roles/assign-role/'.$list->id) . '" class="btn btn-link"> Assign Role </a>
             ';
         })
         ->rawColumns([])
