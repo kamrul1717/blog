@@ -91,21 +91,38 @@ class PermissionsController extends Controller
     public function assignPermissionToUser($user_id){
         $user = User::find($user_id);
         $roles = $user->roles;
-        return view("Rights::permissions.userPermissions", compact('roles'));
+        return view("Rights::permissions.userPermissions", compact('roles', 'user_id'));
     }
 
     public function getUserPermissionsList($user_id){
         try {
             $user = User::find($user_id);
-            $permissions = $user->getAllPermissions();
-
             $list = Permission::getPermissions();
-            Session::flash('success', 'Permission Deleted!');
-            return redirect('rights/permissions/list');
+            $dt = Datatables::of($list)
+                ->editColumn('name', function ($list) use ($user) {
+                    return $list->name;
+                });
+
+            $roles = $user->roles;
+            if($roles){
+                for($i = 0; $i < count($roles); $i++){
+                    $dt->addColumn('role', function ($list) use ($user) {
+                        return $user->hasPermissionTo($list->id) ? 'Revoke' : 'Assign';
+                    });
+                    $dt->addColumn('role', function ($list) use ($user) {
+                        return $user->hasPermissionTo($list->id) ? 'Revoke' : 'Assign';
+                    });
+                    $dt->addColumn('role', function ($list) use ($user) {
+                        return $user->hasPermissionTo($list->id) ? 'Revoke' : 'Assign';
+                    });
+                }
+            }
+            return $dt->rawColumns([])->make(true);
+
         }catch (\Exception $e){
 //            dd($e->getMessage());
             Session::flash('error', 'Something Went Wrong!');
-            return redirect('rights/permissions/list');
+            return redirect('rights/manage-users');
         }
     }
 }

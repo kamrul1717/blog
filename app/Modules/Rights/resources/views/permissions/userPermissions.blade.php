@@ -31,22 +31,26 @@
 <script>
 
 
-    {{--table_desk = $('#table_desk').DataTable({--}}
-    {{--    iDisplayLength: 50,--}}
-    {{--    processing: true,--}}
-    {{--    serverSide: true,--}}
-    {{--    searching: true,--}}
-    {{--    ajax: {--}}
-    {{--        url:  '{{url("/rights/permissions/get-list")}}',--}}
-    {{--        method:'get',--}}
-    {{--        data: function (d) {--}}
-    {{--            d._token = $('input[name="_token"]').val();--}}
-    {{--        }--}}
-    {{--    },--}}
-    {{--    columns: [--}}
-    {{--        {data: 'name', name: 'name'},--}}
-    {{--        {data: 'action', name: 'action'},--}}
-    {{--    ],--}}
-    {{--    "aaSorting": []--}}
-    {{--});--}}
+    table_desk = $('#table_desk').DataTable({
+        iDisplayLength: 50,
+        processing: true,
+        serverSide: true,
+        searching: true,
+        ajax: {
+            url:  '{{url("/rights/user-permissions-list/".$user_id)}}',
+            method:'get',
+            data: function (d) {
+                d._token = $('input[name="_token"]').val();
+            }
+        },
+        columns: [
+            {data: 'name', name: 'name'},
+            {data: 'role', name: 'role'},
+            {data: 'role', name: 'role'},
+            {data: 'role', name: 'role'},
+            {data: 'role', name: 'role'},
+            {data: 'role', name: 'role'},
+        ],
+        "aaSorting": []
+    });
 </script>
